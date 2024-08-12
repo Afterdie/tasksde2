@@ -5,17 +5,14 @@ const app = express();
 const port = process.env.PORT;
 
 const corsOptions = {
-  origin: "https://tasksde2.vercel.app/",
+  origin: process.env.ORIGIN,
   optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
+
+app.options("*", cors(corsOptions));
 app.use(express.json());
-//new additions
 app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://tasksde2-backend.onrender.com"
-  );
+  res.header("Access-Control-Allow-Origin", process.env.HEADERURL); // Ensure this is set correctly in your environment
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header(
     "Access-Control-Allow-Headers",
@@ -23,6 +20,7 @@ app.use((req, res, next) => {
   );
   next();
 });
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
