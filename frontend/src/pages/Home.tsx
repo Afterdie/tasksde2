@@ -21,7 +21,6 @@ export default function Home() {
     const { toast } = useToast()
     const [stacks, setStacks] = useState<StackType[]>([])
     const [results, setResults] = useState<StackType[]>([])
-    console.log(import.meta.env.VITE_REACT_URL)
     useEffect(() => {
         const fetchData = async () => {
             try {

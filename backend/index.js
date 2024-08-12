@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT;
 
 const corsOptions = {
-  origin: "https://tasksde2-backend.onrender.com",
+  origin: "https://tasksde2.vercel.app/",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
