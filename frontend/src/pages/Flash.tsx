@@ -5,18 +5,6 @@ import { Link } from 'react-router-dom'
 import Card from '@/components/Card'
 import { useToast } from '@/components/ui/use-toast'
 
-//get card for assigned id
-const card = [
-    {
-        question: 'testing',
-        answer: 'works',
-    },
-    {
-        question: 'bruh',
-        answer: 'works',
-    },
-]
-
 import { CardType } from '@/components/Card'
 
 //fetch all the cards here using the stack id
@@ -55,12 +43,8 @@ export default function Flash() {
     const handleChangeIndex = () => {}
 
     return (
-        <div className="flex h-screen justify-between pt-[60px]">
+        <div className="border-tufaccent mx-auto flex h-screen max-w-[800px] justify-between border-2 pt-[60px]">
             <div className="flex-1">
-                <Link to={'/'}>
-                    <Button>Return</Button>
-                </Link>
-                {id}
                 <div className="flex justify-center">
                     {currentCard ? (
                         <Card {...currentCard} />
@@ -78,6 +62,7 @@ export default function Flash() {
                 >
                     Previous
                 </Button>
+                <Button>Flip</Button>
                 <Button
                     disabled={curIndex == cards.length - 1}
                     onClick={() => {
@@ -90,9 +75,9 @@ export default function Flash() {
                 >
                     Next
                 </Button>
-            </div>
-            <div className="h-full w-[200px] border-l-2 border-muted">
-                notes here
+                <Link to={'/'}>
+                    <Button>Return</Button>
+                </Link>
             </div>
         </div>
     )

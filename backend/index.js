@@ -40,6 +40,22 @@ app.post("/createstack", (req, res) => {
   });
 });
 
+app.put("/editstack", (req, res) => {
+  const { id, topic, category } = req.body;
+  if (!id || !topic || !category) {
+    return res.status(400).send();
+  }
+
+  const query = `UPDATE stack SET topic = ?, category = ? WHERE id = ?`;
+
+  db.query(query, [topic, category, id], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    res.status(200).send();
+  });
+});
+
 app.delete("/deletestack", (req, res) => {
   const { id } = req.body;
   if (!id) {
@@ -85,6 +101,23 @@ app.post("/createcard", (req, res) => {
 
       res.status(200).json({ id: id });
     });
+  });
+});
+
+app.put("/editcard", (req, res) => {
+  const { id, stack_id, question, answer } = req.body;
+
+  if (!id || !stack_id || !question || !answer) {
+    return res.status(400).send();
+  }
+
+  const query = `UPDATE card SET question = ?, answer = ? WHERE id = ? AND stack_id = ?`;
+
+  db.query(query, [question, answer, id, stack_id], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    res.status(200).send();
   });
 });
 

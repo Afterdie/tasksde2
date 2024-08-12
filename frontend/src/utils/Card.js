@@ -19,7 +19,6 @@ export const fetchCards = async (id) => {
 }
 
 export const createCard = async (cardDetails) => {
-    console.log(cardDetails)
     try {
         const response = await fetch('http://localhost:3000/createcard', {
             method: 'POST',
@@ -31,6 +30,25 @@ export const createCard = async (cardDetails) => {
         if (!response.ok) throw error
         const data = await response.json()
         return data.id
+    } catch (error) {
+        return error
+    }
+}
+
+export const editCard = async ({ question, answer, id, stack_id }) => {
+    try {
+        const response = await fetch('http://localhost:3000/editcard', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                stack_id: stack_id,
+                question: question,
+                answer: answer,
+            }),
+        })
     } catch (error) {
         return error
     }

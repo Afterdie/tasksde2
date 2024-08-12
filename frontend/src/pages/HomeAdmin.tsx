@@ -72,7 +72,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="flex flex-col gap-4 p-2 pt-[100px]">
+        <div className="flex flex-col gap-4 p-6 pt-[100px]">
             <div className="flex gap-4">
                 <Dialog>
                     <DialogTrigger asChild>
@@ -113,7 +113,7 @@ export default function Dashboard() {
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
-                <Button onClick={fetchData}>Refresh</Button>
+                {/* <Button onClick={fetchData}>Refresh</Button> */}
             </div>
             <StackSpace stacks={stacks} />
         </div>
@@ -121,7 +121,7 @@ export default function Dashboard() {
 }
 const StackSpace = ({ stacks }: { stacks: StackType[] }) => {
     return (
-        <div className="flex flex-col border-2 border-muted p-4">
+        <div className="flex flex-col rounded-lg border-2 border-muted p-2">
             <Accordion type="single" collapsible>
                 {stacks.map((stack, index) => {
                     return <StackAdmin {...stack} key={index} />

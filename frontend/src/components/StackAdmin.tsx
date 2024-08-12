@@ -28,9 +28,20 @@ import { CardType } from './Card'
 import { deleteStack, editStack } from '../utils/Stack'
 import { createCard, fetchCards, deleteCard } from '../utils/Card'
 
+interface StackAdminProp {
+    topic: string
+    category: string
+    id: number
+    editStack: (id: number) => Promise<void>
+}
+
 export default function StackAdmin({ topic, category, id }: StackType) {
     const { toast } = useToast()
 
+    const [stackInfo, setStackInfo] = useState({
+        topic: topic,
+        category: category,
+    })
     const [deleted, setDeleted] = useState(false)
     const [cards, setCards] = useState<CardType[]>([])
     const [cardDetails, setCardDetails] = useState({
@@ -38,6 +49,8 @@ export default function StackAdmin({ topic, category, id }: StackType) {
         question: '',
         answer: '',
     })
+
+    //for editing
     const [stackDetails, setStackDetails] = useState({
         topic: topic,
         category: category,
@@ -102,10 +115,11 @@ export default function StackAdmin({ topic, category, id }: StackType) {
     //stack functions
     const handleStackEdit = async () => {
         try {
-            await editStack(stackDetails) // Added parameters
-            toast({ title: 'Stack edited successfully' }) // Added success toast
+            await editStack({ ...stackDetails, id: id })
+            setStackInfo(stackDetails)
+            toast({ title: 'Stack edited successfully' })
         } catch (err) {
-            toast({ title: 'Failed to edit stack' }) // Added error handling
+            toast({ title: 'Failed to edit stack' })
         }
     }
     const handleStackDelete = async () => {
@@ -129,8 +143,8 @@ export default function StackAdmin({ topic, category, id }: StackType) {
                         <h2>Removed</h2>
                     ) : (
                         <h2>
-                            <span className="text-bold">{topic}</span> -{' '}
-                            {category}
+                            <span className="text-bold">{stackInfo.topic}</span>{' '}
+                            - {stackInfo.category}
                         </h2>
                     )}
                     <div className="flex items-center gap-3">
@@ -251,7 +265,9 @@ export default function StackAdmin({ topic, category, id }: StackType) {
                             )
                         })
                     ) : (
-                        <p>Start adding cards</p>
+                        <p className="text-center text-white/50">
+                            Start adding cards
+                        </p>
                     )}
                 </div>
             </AccordionContent>
