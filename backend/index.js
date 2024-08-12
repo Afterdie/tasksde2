@@ -6,8 +6,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://tasksde2.vercel.app/"],
-    credentials: true,
+    origin: ["http://localhost:5173", "https://tasksde2.vercel.app"],
   })
 );
 
