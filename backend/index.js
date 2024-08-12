@@ -1,25 +1,9 @@
 const express = require("express");
-const cors = require("cors");
 const db = require("./database");
 const app = express();
 const port = process.env.PORT;
 
-const corsOptions = {
-  origin: process.env.ORIGIN,
-  optionsSuccessStatus: 200,
-};
-
-app.options("*", cors(corsOptions));
 app.use(express.json());
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.HEADERURL); // Ensure this is set correctly in your environment
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
