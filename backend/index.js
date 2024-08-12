@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/stacks", (req, res) => {
-  const query = "SELECT * FROM STACK";
+  const query = "SELECT * FROM stack";
   db.query(query, function (err, results) {
     if (err) throw err;
     res.send(results);
