@@ -8,7 +8,12 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.sendStatus(200);
+});
 app.get("/stacks", (req, res) => {
   const query = "SELECT * FROM stack";
   db.query(query, function (err, results) {
