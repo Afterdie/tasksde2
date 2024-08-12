@@ -2,17 +2,17 @@ const express = require("express");
 const db = require("./database");
 const app = express();
 const port = process.env.PORT;
-
+const cors = require("cors");
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://tasksde2.vercel.app/"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
-});
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  res.header("Access-Control-Allow-Methods", "*");
-  res.sendStatus(200);
 });
 app.get("/stacks", (req, res) => {
   const query = "SELECT * FROM stack";
