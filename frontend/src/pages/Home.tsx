@@ -21,7 +21,7 @@ export default function Home() {
     const { toast } = useToast()
     const [stacks, setStacks] = useState<StackType[]>([])
     const [results, setResults] = useState<StackType[]>([])
-
+    console.log(import.meta.env.VITE_REACT_URL)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -101,7 +101,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ handleSearchChange }) => {
 
 const Category = ({ topic }: { topic: string }) => {
     return (
-        <div className="bg-tuf border-tufaccent col-span-1 row-span-1 translate-y-0 rounded-lg border-2 p-3 text-center text-xl font-medium text-white transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary/80">
+        <div className="col-span-1 row-span-1 translate-y-0 rounded-lg border-2 border-tufaccent bg-tuf p-3 text-center text-xl font-medium text-white transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary/80">
             {topic}
         </div>
     )
