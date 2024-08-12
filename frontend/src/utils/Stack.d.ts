@@ -1,4 +1,6 @@
-export declare const fetchStacks: () => Promise<any>
+import { StackType } from '@/components/Stack'
+
+export declare const fetchStacks: () => Promise<StackType[]>
 
 export declare const createStack: (params: {
     topic: string

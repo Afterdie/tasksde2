@@ -5,12 +5,13 @@ import Card from '@/components/Card'
 import { useToast } from '@/components/ui/use-toast'
 
 import { CardType } from '@/components/Card'
+import { fetchCards } from '@/utils/Card'
 
 //fetch all the cards here using the stack id
 export default function Flash() {
     const { toast } = useToast()
-    const { id } = useParams<{ id: string }>()
-    const [cards, setCards] = useState([])
+    const { id } = useParams()
+    const [cards, setCards] = useState<CardType[]>([])
     const [curIndex, setCurIndex] = useState(0)
 
     const currentCard: CardType = cards[curIndex]
@@ -22,18 +23,10 @@ export default function Flash() {
                 return
             }
             try {
-                const url = new URL('http://localhost:3000/cards')
-                url.searchParams.append('id', id)
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                const data = await response.json()
+                const data = await fetchCards(Number(id))
                 setCards(data)
             } catch (err) {
-                toast({ title: 'Error' })
+                toast({ title: 'Error getting cards' })
             }
         }
         fetchData()
@@ -45,7 +38,7 @@ export default function Flash() {
     }
 
     return (
-        <div className="border-tufaccent mx-auto flex h-screen max-w-[800px] flex-col items-center justify-center gap-4 border-2 pt-[60px]">
+        <div className="mx-auto flex h-screen max-w-[800px] flex-col items-center justify-center gap-4 border-2 border-tufaccent pt-[60px]">
             <div className="flex w-full flex-col gap-6">
                 <div className="flex justify-center">
                     {currentCard ? (
