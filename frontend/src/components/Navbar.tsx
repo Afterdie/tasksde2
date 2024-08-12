@@ -1,6 +1,8 @@
 import React from 'react'
-import { Button } from './ui/button'
 
+import { Link } from 'react-router-dom'
+//shadcn
+import { Button } from './ui/button'
 import {
     Dialog,
     DialogContent,
@@ -15,6 +17,8 @@ export default function Navbar() {
     return (
         <div className="absolute top-0 z-50 flex w-full items-center justify-between border-b-2 border-muted bg-white p-3">
             <div>Logo here</div>
+            <Link to={'/dashboard'}>Dash</Link>
+            <Link to={'/'}>Return</Link>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button>Login</Button>

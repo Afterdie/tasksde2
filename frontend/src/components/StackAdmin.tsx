@@ -148,7 +148,7 @@ export default function StackAdmin({ topic, category, id }: StackType) {
                         </h1>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button>Add {id}</Button>
+                                <Button>Add</Button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
