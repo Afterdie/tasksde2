@@ -5,14 +5,17 @@ const app = express();
 const port = process.env.PORT;
 
 const corsOptions = {
-  origin: "https://tasksde2-backend.onrender.com", // Replace with your client's domain
+  origin: "https://tasksde2-backend.onrender.com",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 //new additions
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://your-client-domain.com"); // Replace with your client's domain
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://tasksde2-backend.onrender.com"
+  );
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header(
     "Access-Control-Allow-Headers",
