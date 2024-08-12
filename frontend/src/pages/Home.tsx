@@ -114,7 +114,7 @@ const StackSpace = ({ stacks }: { stacks: StackType[] }) => {
     return (
         <div>
             <h1 className="text-2xl font-bold">Stacks ({stacks.length})</h1>
-            <div className="mt-6 grid grid-cols-4 gap-10">
+            <div className="mt-10 grid grid-cols-4 gap-10">
                 {stacks.map((stack: StackType, index: number) => {
                     return <Stack {...stack} key={index} />
                 })}
