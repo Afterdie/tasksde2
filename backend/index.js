@@ -142,5 +142,5 @@ app.listen(port, () => {
     if (err) throw err;
     console.log("Connected");
   });
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on ${port}`);
 });
