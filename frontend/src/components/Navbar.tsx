@@ -3,38 +3,21 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 //shadcn
 import { Button } from './ui/button'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogFooter,
-} from '@/components/ui/dialog'
+import logo from '../../public/logo.svg'
 
 export default function Navbar() {
     return (
-        <div className="absolute top-0 z-50 flex w-full items-center justify-between border-b-2 border-muted bg-secondary p-3">
-            <div>Logo here</div>
-            <Link to={'/dashboard'}>Dash</Link>
-            <Link to={'/'}>Return</Link>
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button>Login</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>
-                            Login to create your own stacks
-                        </DialogTitle>
-                        <DialogDescription></DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button>Login</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+        <div className="absolute top-0 z-50 flex w-full items-center justify-between border-b-2 border-muted bg-secondary px-3">
+            <div className="flex items-center font-bold">
+                <img src={logo} alt="" className="h-14 w-14" />
+                tacks
+            </div>
+            <div className="flex items-center gap-6">
+                <Link to={'/'}>Home</Link>
+                <Link to={'/dashboard'}>
+                    <Button>Dashboard</Button>
+                </Link>
+            </div>
         </div>
     )
 }

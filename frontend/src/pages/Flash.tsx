@@ -40,14 +40,21 @@ export default function Flash() {
         fetchData()
     }, [])
 
-    const handleChangeIndex = () => {}
+    const [flipped, setFlipped] = useState(false)
+    const handleFlip = (flag: boolean) => {
+        setFlipped(flag)
+    }
 
     return (
-        <div className="border-tufaccent mx-auto flex h-screen max-w-[800px] items-center justify-between border-2 pt-[60px]">
+        <div className="border-tufaccent mx-auto flex h-screen max-w-[800px] flex-col items-center justify-center gap-4 border-2 pt-[60px]">
             <div className="flex w-full flex-col gap-6">
                 <div className="flex justify-center">
                     {currentCard ? (
-                        <Card {...currentCard} />
+                        <Card
+                            {...currentCard}
+                            flipped={flipped}
+                            handleFlip={handleFlip}
+                        />
                     ) : (
                         <div>No card available</div>
                     )}
@@ -55,11 +62,12 @@ export default function Flash() {
                 <div className="flex justify-center gap-4">
                     <Button
                         disabled={curIndex == 0}
-                        onClick={() =>
+                        onClick={() => {
                             setCurIndex((initial) =>
                                 initial == 0 ? 0 : initial - 1
                             )
-                        }
+                            handleFlip(false)
+                        }}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +85,11 @@ export default function Flash() {
                             <path d="M2 12H22" />
                         </svg>
                     </Button>
-                    <Button>
+                    <Button
+                        onClick={() => {
+                            handleFlip(!flipped)
+                        }}
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -103,7 +115,7 @@ export default function Flash() {
                                     ? initial
                                     : initial + 1
                             )
-                            console.log(curIndex)
+                            handleFlip(false)
                         }}
                     >
                         <svg
@@ -124,6 +136,10 @@ export default function Flash() {
                     </Button>
                 </div>
             </div>
+            <p className="text-2xl font-bold">
+                {curIndex + 1}
+                <span className="text-white/40">/{cards.length}</span>
+            </p>
         </div>
     )
 }
