@@ -19,6 +19,7 @@ export const fetchCards = async (id) => {
 }
 
 export const createCard = async (cardDetails) => {
+    console.log(cardDetails)
     try {
         const response = await fetch('http://localhost:3000/createcard', {
             method: 'POST',

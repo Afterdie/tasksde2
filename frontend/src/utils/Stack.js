@@ -19,6 +19,9 @@ export const createStack = async ({ topic, category }) => {
                 category: category,
             }),
         })
+        if (!response.ok) throw error
+        const data = await response.json()
+        return data.id
     } catch (err) {
         throw err
     }

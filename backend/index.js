@@ -22,19 +22,26 @@ app.get("/stacks", (req, res) => {
 app.post("/createstack", (req, res) => {
   const { topic, category } = req.body;
 
-  const query = `INSERT INTO stack (topic, category) VALUES (?, ?)`;
-  // Execute Query
-  db.query(query, [topic, category], function (err, results) {
+  const insertQuery = `INSERT INTO stack (topic, category) VALUES (?, ?)`;
+  db.query(insertQuery, [topic, category], function (err, results) {
     if (err) {
       return res.status(500).send();
     }
-    res.status(200).send();
+    // getting the last inserted id
+    const idQuery = `SELECT LAST_INSERT_ID() as id`;
+    db.query(idQuery, function (err, results) {
+      if (err) {
+        return res.status(500).send();
+      }
+      const id = results[0].id;
+
+      res.status(200).json({ id: id });
+    });
   });
 });
 
 app.delete("/deletestack", (req, res) => {
   const { id } = req.body;
-
   if (!id) {
     return res.status(400).send();
   }
@@ -68,7 +75,7 @@ app.post("/createcard", (req, res) => {
     if (err) {
       return res.status(500).send();
     }
-    // Retrieve the last inserted ID
+    // getting the last inserted ID
     const idQuery = `SELECT LAST_INSERT_ID() as id`;
     db.query(idQuery, function (err, results) {
       if (err) {

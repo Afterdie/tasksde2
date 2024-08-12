@@ -31,6 +31,7 @@ import { createCard, fetchCards, deleteCard } from '../utils/Card'
 export default function StackAdmin({ topic, category, id }: StackType) {
     const { toast } = useToast()
 
+    const [deleted, setDeleted] = useState(false)
     const [cards, setCards] = useState<CardType[]>([])
     const [cardDetails, setCardDetails] = useState({
         stack_id: id,
@@ -41,21 +42,20 @@ export default function StackAdmin({ topic, category, id }: StackType) {
         topic: topic,
         category: category,
     })
-
+    const fetchData = async () => {
+        if (!id) {
+            toast({ title: `Couldnt load stack ${id}` })
+            return
+        }
+        try {
+            const response = await fetchCards(id)
+            setCards(response)
+        } catch (err) {
+            toast({ title: "Couldn't load cards" })
+        }
+    }
     //gets all the cards for current stack
     useEffect(() => {
-        const fetchData = async () => {
-            if (!id) {
-                toast({ title: `Couldnt load stack ${id}` })
-                return
-            }
-            try {
-                const response = await fetchCards(id)
-                setCards(response)
-            } catch (err) {
-                toast({ title: "Couldn't load cards" })
-            }
-        }
         fetchData()
     }, [])
 
@@ -65,7 +65,7 @@ export default function StackAdmin({ topic, category, id }: StackType) {
             const response = await createCard({
                 question: cardDetails.question,
                 answer: cardDetails.answer,
-                stack_id: cardDetails.stack_id,
+                stack_id: id,
             })
             toast({ title: 'Added new card' })
             setCards([
@@ -75,7 +75,6 @@ export default function StackAdmin({ topic, category, id }: StackType) {
                     id: response,
                 },
             ])
-            console.log(cards)
         } catch (err) {
             toast({ title: 'Failed to add new card' })
         }
@@ -87,7 +86,6 @@ export default function StackAdmin({ topic, category, id }: StackType) {
     }
 
     const handleCardDelete = async (id: number, stack_id: number) => {
-        console.log(id, stack_id)
         try {
             await deleteCard(id, stack_id)
             setCards(cards.filter((card) => card.id !== id))
@@ -113,18 +111,28 @@ export default function StackAdmin({ topic, category, id }: StackType) {
     const handleStackDelete = async () => {
         try {
             await deleteStack(id)
+            setDeleted(true)
             toast({ title: 'Deleted stack succesfully' })
         } catch (error) {
             toast({ title: 'Something went wrong' })
         }
     }
     return (
-        <AccordionItem value={`item-${id}`}>
+        <AccordionItem
+            value={`item-${id}`}
+            disabled={deleted}
+            className={`${deleted ? 'opacity-50' : 'opacity-100'} transition-opacity ease-in-out`}
+        >
             <AccordionTrigger>
                 <div className="flex w-full items-center justify-between px-4">
-                    <h2>
-                        <span className="text-bold">{topic}</span> - {category}
-                    </h2>
+                    {deleted ? (
+                        <h2>Removed</h2>
+                    ) : (
+                        <h2>
+                            <span className="text-bold">{topic}</span> -{' '}
+                            {category}
+                        </h2>
+                    )}
                     <div className="flex items-center gap-3">
                         <p className="flex h-6 w-6 items-center justify-center rounded-full bg-primary font-bold text-secondary">
                             {cards.length}
@@ -140,7 +148,7 @@ export default function StackAdmin({ topic, category, id }: StackType) {
                         </h1>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button>Add</Button>
+                                <Button>Add {id}</Button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>

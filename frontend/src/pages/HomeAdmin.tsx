@@ -25,26 +25,25 @@ import { fetchStacks, createStack } from '../utils/Stack'
 
 export default function Dashboard() {
     const [stacks, setStacks] = useState<StackType[]>([])
-    const [stackDetails, setStackDetails] = useState<StackType>({
-        id: 0,
+    const [stackDetails, setStackDetails] = useState({
         topic: '',
         category: '',
     })
     const { toast } = useToast()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchStacks()
-                setStacks(data)
-            } catch (err) {
-                toast({ title: 'Error fetching data' })
-            }
+    const fetchData = async () => {
+        try {
+            const data = await fetchStacks()
+            setStacks(data)
+        } catch (err) {
+            toast({ title: 'Error fetching data' })
         }
+    }
+    useEffect(() => {
         fetchData()
     }, [])
 
-    const handleSubmit = async () => {
+    const handleStackSubmit = async () => {
         const { topic, category } = stackDetails
 
         // Validation
@@ -53,65 +52,69 @@ export default function Dashboard() {
             return
         }
         try {
-            await createStack({ topic, category })
+            const id = await createStack(stackDetails)
             toast({ title: 'Stack created' })
-
-            setStackDetails({ id: 0, topic: '', category: '' })
+            setStacks([
+                ...stacks,
+                {
+                    id: id,
+                    topic: topic,
+                    category: category,
+                },
+            ])
         } catch (error) {
             toast({
                 title: 'Failed to add stack',
                 variant: 'destructive',
             })
         }
-        setStacks([
-            ...stacks,
-            {
-                id: stacks.length,
-                topic: topic,
-                category: category,
-            },
-        ])
+        setStackDetails({ topic: '', category: '' })
     }
 
     return (
-        <div className="pt-[100px]">
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button>Add Stack</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Add topic and category</DialogTitle>
-                    </DialogHeader>
-                    <input
-                        type="text"
-                        value={stackDetails.topic}
-                        onChange={(e) =>
-                            setStackDetails({
-                                ...stackDetails,
-                                topic: e.target.value,
-                            })
-                        }
-                        placeholder="Topic"
-                    />
-                    <input
-                        type="text"
-                        value={stackDetails.category}
-                        onChange={(e) =>
-                            setStackDetails({
-                                ...stackDetails,
-                                category: e.target.value,
-                            })
-                        }
-                        placeholder="Category"
-                    />
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button onClick={handleSubmit}>Submit</Button>
-                        </DialogClose>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+        <div className="flex flex-col gap-4 p-2 pt-[100px]">
+            <div className="flex gap-4">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>Add Stack</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Add topic and category</DialogTitle>
+                        </DialogHeader>
+                        <input
+                            type="text"
+                            value={stackDetails.topic}
+                            onChange={(e) =>
+                                setStackDetails({
+                                    ...stackDetails,
+                                    topic: e.target.value,
+                                })
+                            }
+                            placeholder="Topic"
+                        />
+                        <input
+                            type="text"
+                            value={stackDetails.category}
+                            onChange={(e) =>
+                                setStackDetails({
+                                    ...stackDetails,
+                                    category: e.target.value,
+                                })
+                            }
+                            placeholder="Category"
+                        />
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button onClick={handleStackSubmit}>
+                                    Submit
+                                </Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+                <Button onClick={fetchData}>Refresh</Button>
+            </div>
             <StackSpace stacks={stacks} />
         </div>
     )
