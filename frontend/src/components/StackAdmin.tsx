@@ -28,13 +28,6 @@ import { CardType } from './Card'
 import { deleteStack, editStack } from '../utils/Stack'
 import { createCard, fetchCards, deleteCard } from '../utils/Card'
 
-interface StackAdminProp {
-    topic: string
-    category: string
-    id: number
-    editStack: (id: number) => Promise<void>
-}
-
 export default function StackAdmin({ topic, category, id }: StackType) {
     const { toast } = useToast()
 

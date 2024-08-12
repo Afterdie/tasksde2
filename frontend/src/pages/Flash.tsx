@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
 import Card from '@/components/Card'
 import { useToast } from '@/components/ui/use-toast'
 

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '@/components/Navbar'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import Stack from '@/components/Stack'
 import { useToast } from '@/components/ui/use-toast'
 //type imports
 import { StackType } from '@/components/Stack'
 import { fetchStacks } from '../utils/Stack'
-import { Input } from '@/components/ui/input'
 
 const topics = [
     'Science',

@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-
 export interface CardType {
     question: string
     answer: string

@@ -1,4 +1,3 @@
-import React from 'react'
 import Home from './pages/Home'
 
 import Flash from './pages/Flash'
