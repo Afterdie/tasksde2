@@ -18,6 +18,8 @@ module.exports = {
         },
         extend: {
             colors: {
+                tuf: '#191919',
+                tufaccent: '#212121',
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
