@@ -19,6 +19,36 @@ app.get("/stacks", (req, res) => {
   });
 });
 
+app.post("/createstack", (req, res) => {
+  const { topic, category } = req.body;
+
+  const query = `INSERT INTO stack (topic, category) VALUES (?, ?)`;
+  // Execute Query
+  db.query(query, [topic, category], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    res.status(200).send();
+  });
+});
+
+app.delete("/deletestack", (req, res) => {
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).send();
+  }
+
+  const query = `DELETE FROM stack WHERE id = ?`;
+
+  db.query(query, [id], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    res.status(200).send();
+  });
+});
+
 app.get("/cards", (req, res) => {
   const id = req.query.id;
   if (!id) return res.status(400).send("Stack not found");
@@ -27,6 +57,43 @@ app.get("/cards", (req, res) => {
   db.query(query, function (err, results) {
     if (err) throw err;
     res.send(results);
+  });
+});
+
+app.post("/createcard", (req, res) => {
+  const { question, answer, stack_id } = req.body;
+
+  const insertQuery = `INSERT INTO card (question, answer, stack_id) VALUES (?, ?, ?)`;
+  db.query(insertQuery, [question, answer, stack_id], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    // Retrieve the last inserted ID
+    const idQuery = `SELECT LAST_INSERT_ID() as id`;
+    db.query(idQuery, function (err, results) {
+      if (err) {
+        return res.status(500).send();
+      }
+      const id = results[0].id;
+
+      res.status(200).json({ id: id });
+    });
+  });
+});
+
+app.delete("/deletecard", (req, res) => {
+  const { id, stack_id } = req.body;
+
+  if (!id || !stack_id) {
+    return res.status(400).send();
+  }
+  const query = `DELETE FROM card WHERE id = ? AND stack_id = ?`;
+
+  db.query(query, [id, stack_id], function (err, results) {
+    if (err) {
+      return res.status(500).send();
+    }
+    res.status(200).send();
   });
 });
 

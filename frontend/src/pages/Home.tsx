@@ -5,29 +5,8 @@ import Stack from '@/components/Stack'
 import { useToast } from '@/components/ui/use-toast'
 //type imports
 import { StackType } from '@/components/Stack'
+import { fetchStacks } from '../utils/Stack'
 
-const initialStacks: StackType[] = [
-    {
-        topic: 'Sex',
-        category: 'Bio',
-        id: 12314,
-    },
-    {
-        topic: 'balls',
-        category: 'Bio',
-        id: 12314,
-    },
-    {
-        topic: 'twe',
-        category: 'Bio',
-        id: 12314,
-    },
-    {
-        topic: 'dhva',
-        category: 'Bio',
-        id: 12314,
-    },
-]
 //the stacks will need to be in a stack because it is going to be fetched
 export default function Home() {
     const { toast } = useToast()
@@ -37,11 +16,9 @@ export default function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/stacks')
-                const data = await response.json()
+                const data = await fetchStacks()
                 setStacks(data)
                 setResults(data)
-                console.log(data)
             } catch (err) {
                 toast({ title: 'Error fetching data' })
             }

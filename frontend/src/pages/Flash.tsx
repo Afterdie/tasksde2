@@ -45,7 +45,6 @@ export default function Flash() {
                 })
                 const data = await response.json()
                 setCards(data)
-                console.log(data)
             } catch (err) {
                 toast({ title: 'Error' })
             }
