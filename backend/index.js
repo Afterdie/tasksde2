@@ -4,7 +4,11 @@ const db = require("./database");
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://tasksde2-backend.onrender.com", // Replace with your client's domain
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
